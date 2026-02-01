@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>A Letter 💌</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 🌸 CUTE FONTS -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      padding: 20px;
+      overflow: hidden;
+
+      background-image: url("hello-kitty-bg.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      background-color: #ffd1dc;
+    }
+
+    .screen, .card {
+      background: #fff0f5;
+      border-radius: 28px;
+      padding: 36px 26px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(255, 105, 180, 0.25);
+      position: relative;
+      z-index: 1;
+      backdrop-filter: blur(2px);
+      cursor: pointer;
+      text-align: center;
+    }
+
+    h1.big-text, h2.big-text {
+      font-family: 'Fredoka', cursive;
+      line-height: 1.3;
+      margin: 10px 0;
+    }
+
+    h1.big-text {
+      font-size: 2rem;
+      color: #ff4d6d;
+    }
+
+    h2.big-text {
+      font-size: 1.8rem;
+      color: #ff69b4;
+    }
+
+    img {
+      width: 100%;
+      max-width: 450px;
+      border-radius: 18px;
+      margin-bottom: 16px;
+    }
+
+    .card {
+      display: none;
+      background: #ffffff;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    button {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.05rem;
+      padding: 14px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      width: 100%;
+      transition: transform 0.15s ease;
+    }
+
+    button:active {
+      transform: scale(0.96);
+    }
+
+    .yes {
+      background: linear-gradient(135deg, #ff4d6d, #ff85a2);
+      color: white;
+    }
+
+    .no {
+      background: #f4f4f4;
+      color: #333;
+    }
+
+    .heart, .confetti {
+      position: fixed;
+      bottom: 0;
+      pointer-events: none;
+      animation: float 2.2s linear forwards;
+      z-index: 2;
+    }
+
+    .confetti {
+      animation: fall 2.5s linear forwards;
+    }
+
+    @keyframes float {
+      to { transform: translateY(-260px); opacity: 0; }
+    }
+
+    @keyframes fall {
+      to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+
+    @keyframes rainbow {
+      0% { color: #ff4d6d; }
+      14% { color: #ff85a2; }
+      28% { color: #ffb3c6; }
+      42% { color: #ffd1dc; }
+      57% { color: #ff4d6d; }
+      71% { color: #ff85a2; }
+      85% { color: #ffb3c6; }
+      100% { color: #ff4d6d; }
+    }
+
+    .rainbow-text {
+      animation: rainbow 3s infinite;
+    }
+  </style>
+</head>
+<body>
+
+<!-- 🎵 AUDIO -->
+<audio id="bgMusic" src="cute_background_music.mp3" autoplay loop></audio>
+<audio id="yaySound" src="yay_sound_effect.mp3"></audio>
+
+<!-- ================= INTRO SCREENS ================= -->
+<div class="screen" id="intro1">
+  <h1 class="big-text">Babyyyy, timi kina yeti cute huna sakeko? K ho timro secret? Kina yeti ramri? Kinaaaaa?????</h1>
+  <img src="image1.jpg" alt="Cute image 1">
+</div>
+
+<div class="screen" id="intro2" style="display:none;">
+  <img src="image2.jpg" alt="Cute image 2">
+  <h2 class="big-text">Timro lagi euta letter xa hai pukuluuuu. Muahhhhhhhh</h2>
+</div>
+
+<!-- ================= LETTER ================= -->
+<div class="screen card" id="letterScreen" style="display:none;">
+  <div class="bow">🎀</div>
+  <h1>A letter for</h1>
+  <h1>Sumeeran 🐱💖</h1>
+  <p>(tap to open)</p>
+</div>
+
+<!-- 💖 MAIN QUESTION -->
+<div class="card" id="card1" style="display:none;">
+  <h2>CUTUUUUUU 💕</h2>
+  <img src="us.jpg" alt="Us together ❤️">
+  <p>Will you be my Valentine?</p>
+
+  <div class="buttons">
+    <button class="yes" id="yes1">YES 💖</button>
+    <button class="no" id="no">No 🙄</button>
+  </div>
+</div>
+
+<!-- 🥹 SECOND SCREEN -->
+<div class="card" id="card2" style="display:none;">
+  <h2>Sachai ma baby? 🥹💗</h2>
+  <p>Ajai ek xoti socha na... pleaseeeee 👉👈</p>
+
+  <div class="buttons">
+    <button class="yes" id="yes2">YES 💖</button>
+  </div>
+</div>
+
+<script>
+  const intro1 = document.getElementById("intro1");
+  const intro2 = document.getElementById("intro2");
+  const letterScreen = document.getElementById("letterScreen");
+  const card1 = document.getElementById("card1");
+  const card2 = document.getElementById("card2");
+  const noBtn = document.getElementById("no");
+  const yes1 = document.getElementById("yes1");
+  const yes2 = document.getElementById("yes2");
+  const bgMusic = document.getElementById("bgMusic");
+  const yaySound = document.getElementById("yaySound");
+
+  let noCount = 0;
+
+  // Screen 1 -> Screen 2
+  intro1.onclick = () => {
+    intro1.style.display = "none";
+    intro2.style.display = "block";
+  };
+
+  // Screen 2 -> Letter screen
+  intro2.onclick = () => {
+    intro2.style.display = "none";
+    letterScreen.style.display = "block";
+  };
+
+  // Letter tap -> Main Valentine card
+  letterScreen.onclick = () => {
+    letterScreen.style.display = "none";
+    card1.style.display = "block";
+  };
+
+  // NO button
+  noBtn.onclick = () => {
+    noCount++;
+    if (noCount === 1) {
+      noBtn.textContent = "Are you sure? 🥺";
+    } else {
+      card1.style.display = "none";
+      card2.style.display = "block";
+    }
+  };
+
+  yes1.onclick = finalYes;
+  yes2.onclick = finalYes;
+
+  function finalYes() {
+    yaySound.play();
+
+    card1.style.display = "none";
+    card2.style.display = "none";
+
+    const finalCard = document.createElement("div");
+    finalCard.className = "card";
+    finalCard.style.maxWidth = "500px";
+    finalCard.style.margin = "auto";
+    finalCard.style.marginTop = "5vh";
+    finalCard.style.padding = "40px";
+    finalCard.style.textAlign = "center";
+    finalCard.style.display = "block";
+
+    finalCard.innerHTML = `
+      <h2 class="rainbow-text" style="font-family: 'Fredoka', cursive; font-size: 2rem;">YAYYYY 💘✨</h2>
+      <p class="rainbow-text" style="font-size: 1.2rem; line-height: 1.5;">
+        Thank you sooooo much for being my girlfriend babyyyy.❤️✨💖<br>
+        I love you soooosooosososoooo muchhhhhhhhh. The best girlfriend to everrrrr exist!!!!😘💓💫
+      </p>
+    `;
+
+    document.body.appendChild(finalCard);
+
+    for (let i = 0; i < 30; i++) createHeart();
+    for (let i = 0; i < 40; i++) createConfetti();
+  }
+
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 2200);
+  }
+
+  function createConfetti() {
+    const confetti = document.createElement("div");
+    confetti.className = "confetti";
+    confetti.textContent = "🎉";
+    confetti.style.left = Math.random() * 100 + "vw";
+    confetti.style.top = "-20px";
+    document.body.appendChild(confetti);
+    setTimeout(() => confetti.remove(), 2500);
+  }
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
